@@ -1,0 +1,500 @@
+{
+	"info": {
+		"_postman_id": "561a9bde-9716-4f8c-b83d-79514fbefd57",
+		"name": "ServeREST",
+		"description": "StartFragment\n\n**O ServeRest é uma API REST gratuita que simula uma loja virtual com intuito de servir de material de estudos de testes de API.**\\\\n\\\\n**Não deixe de seguir o \\[autor do projeto\\](https://github.com/PauloGoncalvesBH) e deixar um star no repositório: \\[github.com/ServeRest/ServeRest\\](https://github.com/ServeRest/ServeRest)**\\\\n\\\\nEssa página documenta todas as rotas e como acessá-las. Para mais detalhes do ServeRest (como executar localmente utilizando Docker ou NPM, alterar timeout de autenticação, etc) acesse \\[o repositório do ServeRest\\](https://github.com/serverest/serverest).\\\\n\\\\nEstá utilizando Postman? Importe o \\[JSON do Swagger\\](https://raw.githubusercontent.com/ServeRest/ServeRest/trunk/docs/swagger.json) para ter acesso às collections.\\\\n\\\\nVai fazer teste de carga? Leia a seção '\\[Teste de Carga\\](https://github.com/ServeRest/ServeRest#teste-de-carga)'.\\\\n\\\\n\\\\nMuito obrigado ♥ a todos que apoiam o projeto \\[financeiramente\\](https://opencollective.com/serverest#section-contributors) ou \\[com código, ideias e divulgação\\](https://github.com/ServeRest/ServeRest#contribuidores-), graças a vocês **mais de R$ 2000,00 foram doados para a ONG \\[Todas as letras\\](https://todasasletras.org/)** até o momento.\\\\n\\\\nO ServeRest possui um front, com status em beta, não deixe de conhecer: \\[front.serverest.dev\\](https://front.serverest.dev).\\\\n\\\\nPrecisa de apoio? \\[Abra uma issue\\](https://github.com/ServeRest/ServeRest/issues) ou contate o mantenedor do projeto:\\\\n\n\nEndFragment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20932992"
+	},
+	"item": [
+		{
+			"name": "LOGIN",
+			"item": [
+				{
+					"name": "Realizar Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let res = JSON.parse(responseBody);\r",
+									"pm.environment.set(\"token\", res.authorization);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"dtmasin-tester@teste.com\",\r\n    \"password\": \"qwerty12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USUÁRIOS",
+			"item": [
+				{
+					"name": "Cadastrar Usuário",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "teste",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"David Teixeira de Masin\",\r\n    \"email\": \"dtmasin-tester@teste.com\",\r\n    \"password\": \"qwerty12345\",\r\n    \"administrador\": \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/usuarios",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Usuários Cadastrados",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let res = JSON.parse(responseBody);\r",
+									"\r",
+									"const qtdUser = res.quantidade\r",
+									"console.log(`Quantidade de usuários: ${qtdUser}`)\r",
+									"\r",
+									"const index = Math.floor(Math.random()*qtdUser);\r",
+									"pm.environment.set(\"idUser\", res.usuarios[index]._id);\r",
+									"console.log(`${res.usuarios[index].nome}: _id ${res.usuarios[index]._id}`)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/usuarios",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Usuário por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/usuarios/{{idUser}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"usuarios",
+								"{{idUser}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Usuário",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/usuarios/{{idUser}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"usuarios",
+								"{{idUser}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Usuário",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Sandra Abbott\",\r\n    \"email\": \"sandraabbott@test.com\",\r\n    \"password\": \"Test;123\",\r\n    \"administrador\": \"false\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/usuarios/{{idUser}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"usuarios",
+								"{{idUser}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PRODUTOS",
+			"item": [
+				{
+					"name": "Cadastrar Produto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Suco de Laranja\",\r\n    \"preco\": 11,\r\n    \"descricao\": \"Néctar doce que o Jailson Mendes adora.\",\r\n    \"quantidade\": 25\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/produtos",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Produtos Cadastrados",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let res = JSON.parse(responseBody);\r",
+									"\r",
+									"const qtdProduct = res.quantidade\r",
+									"console.log(`Quantidade de produtos: ${qtdProduct}`)\r",
+									"\r",
+									"const index1 = Math.floor(Math.random()*qtdProduct);\r",
+									"pm.environment.set(\"idProduct1\", res.produtos[index1]._id);\r",
+									"\r",
+									"const index2 = Math.floor(Math.random()*qtdProduct);\r",
+									"pm.environment.set(\"idProduct2\", res.produtos[index2]._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/produtos",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Produtos por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/produtos/{{idProduct1}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"produtos",
+								"{{idProduct1}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Produto",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/produtos/{{idProduct1}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"produtos",
+								"{{idProduct1}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Produto",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Technology LGBTQIAP+ Diagonal\",\r\n    \"preco\": 69,\r\n    \"descricao\": \"Mouse Dildo\",\r\n    \"quantidade\": 24\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/produtos/{{idProduct1}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"produtos",
+								"{{idProduct1}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CARRINHOS",
+			"item": [
+				{
+					"name": "Cadastrar Carrinho",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"produtos\": [\r\n        {\r\n            \"idProduto\": \"{{idProduct1}}\",\r\n            \"quantidade\": 5\r\n        },\r\n        {\r\n            \"idProduto\": \"{{idProduct2}}\",\r\n            \"quantidade\": 5\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/carrinhos",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"carrinhos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Carrinhos Cadastrados",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let res = JSON.parse(responseBody);\r",
+									"\r",
+									"const qtdCar = res.quantidade\r",
+									"console.log(`Quantidade de produtos: ${qtdCar}`)\r",
+									"\r",
+									"const index = Math.floor(Math.random()*qtdCar);\r",
+									"pm.environment.set(\"idCar\", res.carrinhos[index]._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/carrinhos",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"carrinhos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Carrinho por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/carrinhos/{{idCar}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"carrinhos",
+								"{{idCar}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Carrinho",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/carrinhos/concluir-compra",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"carrinhos",
+								"concluir-compra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Carrinho e Retornar Produtos para Estoque",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}​/carrinhos/cancelar-compra",
+							"host": [
+								"{{BASE_URL}}​"
+							],
+							"path": [
+								"carrinhos",
+								"cancelar-compra"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
