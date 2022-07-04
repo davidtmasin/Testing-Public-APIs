@@ -2,7 +2,7 @@
 
 [![Badge ServeRest](https://img.shields.io/badge/API-ServeRest-green)](https://github.com/ServeRest/ServeRest/)
 
-[ Base URL: serverest.dev ]
+[ Base URL: **https://serverest.dev** ]
 
 O ServeRest é uma API REST gratuita que simula uma loja virtual com intuito de servir de material de estudos de testes de API.
 
